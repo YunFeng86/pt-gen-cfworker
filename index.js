@@ -7,6 +7,7 @@ import {search_bangumi, gen_bangumi} from "./lib/bangumi";
 import {gen_steam} from "./lib/steam";
 import {gen_indienova} from "./lib/indienova";
 import {gen_epic} from "./lib/epic";
+import {search_tmdb, gen_tmdb} from "./lib/tmdb";
 import page from './index.html';
 
 /**
@@ -23,7 +24,8 @@ const support_list = {
   "bangumi": /(?:https?:\/\/)?(?:bgm\.tv|bangumi\.tv|chii\.in)\/subject\/(\d+)\/?/,
   "steam": /(?:https?:\/\/)?(?:store\.)?steam(?:powered|community)\.com\/app\/(\d+)\/?/,
   "indienova": /(?:https?:\/\/)?indienova\.com\/game\/(\S+)/,
-  "epic": /(?:https?:\/\/)?www\.epicgames\.com\/store\/[a-zA-Z-]+\/product\/(\S+)\/\S?/
+  "epic": /(?:https?:\/\/)?www\.epicgames\.com\/store\/[a-zA-Z-]+\/product\/(\S+)\/\S?/,
+  "tmdb": /(?:https?:\/\/)?(?:www\.)?themoviedb\.org\/(?:(movie|tv))\/(\d+)\/?/
 };
 
 const support_site_list = Object.keys(support_list);
@@ -83,6 +85,8 @@ async function handle(event) {
                 response_data = await search_imdb(keywords)
               } else if (source === 'bangumi') {
                 response_data = await search_bangumi(keywords)
+              } else if (source === 'tmdb') {
+                response_data = await search_tmdb(keywords)
               } else {
                 // 没有对应方法搜索的资源站点
                 response_data = {error: "Miss search function for `source`: " + source + "."}
@@ -102,7 +106,15 @@ async function handle(event) {
               let pattern = support_list[site_];
               if (url_.match(pattern)) {
                 site = site_;
-                sid = url_.match(pattern)[1];
+                // 特殊处理TMDB URL，捕获媒体类型和ID
+                if (site_ === "tmdb") {
+                  const matches = url_.match(pattern);
+                  const mediaType = matches[1]; // 第一个捕获组：媒体类型(movie|tv)
+                  const id = matches[2]; // 第二个捕获组：ID
+                  sid = `${mediaType}-${id}`; // 使用格式 "类型-ID"
+                } else {
+                  sid = url_.match(pattern)[1]; // 其他网站正常处理
+                }
                 break;
               }
             }
@@ -134,6 +146,8 @@ async function handle(event) {
                 response_data = await gen_indienova(sid);
               } else if (site === "epic") {
                 response_data = await gen_epic(sid);
+              } else if (site === "tmdb") {
+                response_data = await gen_tmdb(sid);
               } else {
                 // 没有对应方法的资源站点，（真的会有这种情况吗？
                 response_data = {error: "Miss generate function for `site`: " + site + "."};
