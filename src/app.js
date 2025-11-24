@@ -46,25 +46,6 @@ const support_list = {
   "tmdb": /(?:https?:\/\/)?(?:www\.)?themoviedb\.org\/(?:(movie|tv))\/(\d+)\/?/
 }
 
-// 搜索处理器映射表（消除 if-else）
-const searchHandlers = new Map([
-  ['douban', search_douban],
-  ['imdb', search_imdb],
-  ['bangumi', search_bangumi],
-  ['tmdb', search_tmdb]
-])
-
-// 信息生成处理器映射表（消除 if-else）
-const genHandlers = new Map([
-  ['douban', gen_douban],
-  ['imdb', gen_imdb],
-  ['bangumi', gen_bangumi],
-  ['steam', gen_steam],
-  ['indienova', gen_indienova],
-  ['epic', gen_epic],
-  ['tmdb', gen_tmdb]
-])
-
 /**
  * 创建 Hono 应用
  * @param {Storage} storage - 存储实现（KV 或 Memory）
@@ -73,9 +54,31 @@ const genHandlers = new Map([
  * @param {boolean} config.disableSearch - 是否禁用搜索功能
  * @param {string} config.htmlPage - HTML 页面内容（CF Workers 环境需要传入）
  * @param {number} config.cacheTTL - 缓存过期时间（秒），默认 172800（2天）
+ * @param {string} config.tmdbApiKey - TMDB API 密钥（可选）
+ * @param {string} config.doubanCookie - 豆瓣 Cookie（可选）
+ * @param {string} config.indienovaCookie - Indienova Cookie（可选）
  */
 export function createApp(storage, config = {}) {
   const app = new Hono()
+
+  // 搜索处理器映射表（使用闭包传递 config）
+  const searchHandlers = new Map([
+    ['douban', (q) => search_douban(q, config)],
+    ['imdb', (q) => search_imdb(q, config)],
+    ['bangumi', (q) => search_bangumi(q, config)],
+    ['tmdb', (q) => search_tmdb(q, config)]
+  ])
+
+  // 信息生成处理器映射表（使用闭包传递 config）
+  const genHandlers = new Map([
+    ['douban', (sid) => gen_douban(sid, config)],
+    ['imdb', (sid) => gen_imdb(sid, config)],
+    ['bangumi', (sid) => gen_bangumi(sid, config)],
+    ['steam', (sid) => gen_steam(sid, config)],
+    ['indienova', (sid) => gen_indienova(sid, config)],
+    ['epic', (sid) => gen_epic(sid, config)],
+    ['tmdb', (sid) => gen_tmdb(sid, config)]
+  ])
 
   // 使用传入的 HTML 页面或默认的 page 变量
   const htmlPage = config.htmlPage || page

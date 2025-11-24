@@ -11,7 +11,10 @@ const storage = new MemoryStorage()
 // 创建 Hono 应用
 const app = createApp(storage, {
   apikey: process.env.APIKEY,
-  disableSearch: process.env.DISABLE_SEARCH === 'true'
+  disableSearch: process.env.DISABLE_SEARCH === 'true',
+  tmdbApiKey: process.env.TMDB_API_KEY,
+  doubanCookie: process.env.DOUBAN_COOKIE,
+  indienovaCookie: process.env.INDIENOVA_COOKIE
 })
 
 // Bun 服务器配置

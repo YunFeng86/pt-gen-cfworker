@@ -15,7 +15,10 @@ export default {
       apikey: env.APIKEY,
       disableSearch: env.DISABLE_SEARCH === 'true',
       cacheTTL: env.CACHE_TTL ? Number(env.CACHE_TTL) : undefined,
-      htmlPage: page
+      htmlPage: page,
+      tmdbApiKey: env.TMDB_API_KEY,
+      doubanCookie: env.DOUBAN_COOKIE,
+      indienovaCookie: env.INDIENOVA_COOKIE
     })
 
     // 处理请求
