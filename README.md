@@ -157,7 +157,6 @@ GET /?site=douban&sid=1292052
 | **tmdb** | ✅ | `https://www.themoviedb.org/movie/278` |
 | **steam** | ❌ | `https://store.steampowered.com/app/730/` |
 | **indienova** | ❌ | `https://indienova.com/game/game-name` |
-| **epic** | ❌ | `https://www.epicgames.com/store/product/game-name/` |
 
 > **注意**：Steam 服务器限制 CF Worker 访问，使用CF Worker时相关功能可用性将下降。
 
@@ -302,8 +301,7 @@ pt-gen-universal/
 │   ├── bangumi.js             # Bangumi
 │   ├── tmdb.js                # TMDB
 │   ├── steam.js               # Steam
-│   ├── indienova.js           # indienova
-│   └── epic.js                # Epic Games
+│   └── indienova.js           # indienova
 ├── index.html                 # Web UI
 ├── package.json
 └── wrangler.toml              # CF Workers 配置

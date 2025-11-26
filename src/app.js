@@ -8,7 +8,6 @@ import { search_imdb, gen_imdb } from '../lib/imdb.js'
 import { search_bangumi, gen_bangumi } from '../lib/bangumi.js'
 import { gen_steam } from '../lib/steam.js'
 import { gen_indienova } from '../lib/indienova.js'
-import { gen_epic } from '../lib/epic.js'
 import { search_tmdb, gen_tmdb } from '../lib/tmdb.js'
 
 // 读取 HTML 页面（兼容 Node.js 和 CF Workers）
@@ -42,7 +41,6 @@ const support_list = {
   "bangumi": /(?:https?:\/\/)?(?:bgm\.tv|bangumi\.tv|chii\.in)\/subject\/(\d+)\/?/,
   "steam": /(?:https?:\/\/)?(?:store\.)?steam(?:powered|community)\.com\/app\/(\d+)\/?/,
   "indienova": /(?:https?:\/\/)?indienova\.com\/(?:game|g)\/(\S+)/,
-  "epic": /(?:https?:\/\/)?(?:(?:www|store)\.)?epicgames\.com\/(?:store\/)?[a-zA-Z-]+\/(?:product|p)\/([^\/\s]+)/,
   "tmdb": /(?:https?:\/\/)?(?:www\.)?themoviedb\.org\/(?:(movie|tv))\/(\d+)\/?/
 }
 
@@ -76,7 +74,6 @@ export function createApp(storage, config = {}) {
     ['bangumi', (sid) => gen_bangumi(sid, config)],
     ['steam', (sid) => gen_steam(sid, config)],
     ['indienova', (sid) => gen_indienova(sid, config)],
-    ['epic', (sid) => gen_epic(sid, config)],
     ['tmdb', (sid) => gen_tmdb(sid, config)]
   ])
 
