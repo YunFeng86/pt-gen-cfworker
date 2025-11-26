@@ -251,7 +251,9 @@ INDIENOVA_COOKIE=your-indienova-cookie
 | 变量 | 说明 |
 |:---:|:---|
 | `APIKEY` | API 访问密钥，设置后需在请求中添加 `?apikey={APIKEY}` |
-| `DISABLE_SEARCH` | 设置为非空值时禁用搜索功能 |
+| `DISABLE_SEARCH` | 设置为 `"true"` 时禁用搜索功能 |
+| `CACHE_TTL` | 缓存过期时间（秒），默认 172800（2天）。设置为 0 禁用缓存 |
+| `TMDB_API_KEY` | TMDB API 密钥，用于访问 TMDB 资源。获取地址：https://www.themoviedb.org/settings/api |
 | `DOUBAN_COOKIE` | 豆瓣 Cookie，用于访问登录可见资源 |
 | `INDIENOVA_COOKIE` | indienova Cookie（[#15](https://github.com/Rhilip/pt-gen-universal/issues/15)） |
 | `PORT` | Node.js/Bun 服务器端口（默认 3000） |

@@ -12,6 +12,7 @@ const storage = new MemoryStorage()
 const app = createApp(storage, {
   apikey: process.env.APIKEY,
   disableSearch: process.env.DISABLE_SEARCH === 'true',
+  cacheTTL: process.env.CACHE_TTL ? Number(process.env.CACHE_TTL) : undefined,
   tmdbApiKey: process.env.TMDB_API_KEY,
   doubanCookie: process.env.DOUBAN_COOKIE,
   indienovaCookie: process.env.INDIENOVA_COOKIE

@@ -82,7 +82,7 @@ export function createApp(storage, config = {}) {
 
   // 使用传入的 HTML 页面或默认的 page 变量
   const htmlPage = config.htmlPage || page
-  const cacheTTL = config.cacheTTL || 86400 * 2 // 默认 2 天
+  const cacheTTL = config.cacheTTL !== undefined ? config.cacheTTL : 86400 * 2 // 默认 2 天
 
   // 全局 CORS 中间件
   app.use('*', cors())
@@ -128,6 +128,11 @@ export function createApp(storage, config = {}) {
 
   // 缓存中间件（应用于所有 API 路由）
   app.use('/api/*', async (c, next) => {
+    // 如果 cacheTTL 为 0，跳过缓存
+    if (cacheTTL === 0) {
+      return next()
+    }
+
     const cacheKey = c.req.url
     const cached = await storage.get(cacheKey)
 
