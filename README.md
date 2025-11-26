@@ -157,6 +157,7 @@ GET /?site=douban&sid=1292052
 | **tmdb** | ✅ | `https://www.themoviedb.org/movie/278` |
 | **steam** | ❌ | `https://store.steampowered.com/app/730/` |
 | **indienova** | ❌ | `https://indienova.com/game/game-name` |
+| **gog** | ❌ | `https://www.gog.com/game/cyberpunk_2077` |
 
 > **注意**：Steam 服务器限制 CF Worker 访问，使用CF Worker时相关功能可用性将下降。
 
@@ -301,6 +302,7 @@ pt-gen-universal/
 │   ├── bangumi.js             # Bangumi
 │   ├── tmdb.js                # TMDB
 │   ├── steam.js               # Steam
+│   ├── gog.js                 # GOG
 │   └── indienova.js           # indienova
 ├── index.html                 # Web UI
 ├── package.json
